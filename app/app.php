@@ -29,7 +29,7 @@
                             <input id = "name" type="text" name="name" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="email">Enter Description:</label>
+                            <label for="email">Enter Email:</label>
                             <input id = "email" type="email" name="email" class="form-control">
                         </div>
                         <div class="form-group">
@@ -46,6 +46,46 @@
 
     $app->get("/results", function() {
 
+        $title = $_GET["title"];
+        $description = $_GET["description"];
+        $name = $_GET["name"];
+        $email = $_GET["email"];
+        $phone = $_GET["phone"];
+
+        if($title && $description && $name && $email && $phone)
+        {
+            $contact = new Contact($name, $email, $phone);
+            $posting = new JobOpening($title, $description, $contact);
+
+            $output = '<!DOCTYPE html>
+                         <html>
+                         <head>
+                         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+                            <title>Job Posting Results</title>
+                         </head>
+                         <body>
+
+
+            ';
+            $output .= "<h1>" . $posting->getTitle() . "</h1>";
+            $output .= "<h3>" . $posting->getDescription() . "</h3>";
+
+            $contact_array = $posting->getContact();
+            $output .= "<ul>";
+            foreach($contact_array as $item) {
+                $output .= "<li>" . $item . "</li>";
+            }
+
+
+            $output .= "</ul>
+            </body>
+            </html>
+            ";
+            return $output;
+
+        } else {
+            $error = "Please fill out all required fields";
+        }
 
     });
 
