@@ -12,6 +12,19 @@ class JobOpening {
         $this->description=$d;
         $this->contactInfo=$c;
     }
+
+    function getTitle() {
+        return $this->title;
+    }
+
+    function getDescription(){
+        return $this->description;
+    }
+
+    function getContact(){
+        $contact = array($this->contactInfo->getName(), $this->contactInfo->getEmail(), $this->contactInfo->getPhone());
+        return $contact;
+    }
 }
 
 class Contact {
